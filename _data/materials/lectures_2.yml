@@ -1,0 +1,10 @@
+- type: lec
+  date: "1/31"
+  week: 2
+  title: Time-based Coordination, The Mind, The Game
+  reading:
+      - name: "hanabi challenge"
+      - url: "/assets/notes/1902.00506.pdf"
+  resources:
+      - name: "slides"
+        url: "/assets/notes/hanabi-card-game-rules.pdf"

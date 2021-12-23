@@ -1,0 +1,10 @@
+{% assign staff = site.staff | sort: "name" %}
+{% for member in site.staff %}
+    {% if include.type %}
+        {% if member.type == include.type %}
+            {% include staff-member.html %}
+        {% endif %}
+    {% else %}
+        {% include staff-member.html %}
+    {% endif %}
+{% endfor %}

@@ -1,0 +1,36 @@
+---
+layout: default 
+---
+
+{% unless page.hide_title %}
+
+<h1 class="mb-4">{{ page.title }}</h1>
+
+{% endunless %}
+
+
+{% if page.sidebar %}
+    <div class="row">
+        <div class="col-sm-9">
+            {{ content }}
+        </div>
+        <div class="col-sm-3">
+            <nav id="toc" class="sticky-top" style="top: 40px;"></nav>
+        </div>
+    </div>
+    
+    <script>
+        $(function() {
+            var navSelector = "#toc";
+            var $myNav = $(navSelector);
+            Toc.init($myNav);
+            $("body").scrollspy({
+                target: navSelector
+            });
+        });
+    </script>
+{% else %}
+    {{ content }}
+{% endif %}
+
+

@@ -1,0 +1,14 @@
+<h3>
+    Week {{announcement.week}}{% if include.show_desc %}: Announcements{% endif %}
+</h3>
+<h5 class="text-muted">{{announcement.dates}}
+
+    {% if announcement.piazza %}
+    &bull; piazza 
+    <a href="{{ site.piazza_url}}?cid={{ announcement.piazza }}">@{{ announcement.piazza }}</a>
+    {% endif %}
+</h5>
+
+<div class="lh-copy">
+    {{announcement.content}}
+</div>

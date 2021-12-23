@@ -1,0 +1,138 @@
+---
+layout: default
+title: Home
+---
+
+{% assign LECTURES_PER_WEEK = 1 %}
+
+<h2>
+    Cooperative Games
+    <img src='assets/fireworks_no_bg.png' style="width:200px;height:200px;" align="right">
+</h2>
+<h5 class="text-muted">
+    Spring 2022
+</h5>
+    Class: Mon 6:30 pm - 8:00 pm, Soda 310<br/>
+    Instructors: Nima Rezaeian, Sohum Hulyalkar<br/>
+
+<blockquote>
+    <h5>Announcements:</h5>
+<ul>
+    Under construction &#128679;
+</ul>
+</blockquote>
+
+<!-- <a href="#week3"><b>Jump to current week</b></a> -->
+
+<div class="table-responsive py-3">
+<table class="table table-bordered" >
+    <thead>
+        <tr>
+            <th>Week</th>
+            <th>Date</th>
+            <th>Lecture</th>
+            <th>Reading</th>
+            <th>Assignments</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for week in (1..site.num_weeks) %}
+
+            {% assign row_week = "" %}
+            {% assign row_date = "" %}
+            {% assign row_lecture = "" %}
+            {% assign row_reading = "" %}
+
+            {% for data_hash in site.data.materials %}
+                {% assign data = data_hash[1] %}
+                {% for material in data %}
+                    {% if material.weeks contains week or material.week == week %}
+                        {% case material.type %}
+                            {% when "announcement" %}
+                                {% capture append_row_week %}
+                                <div class="main-badge-block">
+                                    <p class="badge badge-light my-1 main-badge">
+                                        <a href="{{ site.piazza_url }}">Piazza {{ material.num }}</a>
+                                    </p>
+                                </div>
+                                {% endcapture %}
+                                {% assign row_week = row_week | append: append_row_week %}
+                        {% endcase %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+
+            {% assign first_tr = true %}
+            {% for data_hash in site.data.materials %}
+                {% assign data = data_hash[1] %}
+                {% for material in data %}
+                    {% if material.weeks contains week or material.week == week %}
+                        {% if material.type == "lec" %}
+                            <tr>
+                                {% if first_tr %}
+                                <th rowspan="{{ LECTURES_PER_WEEK }}" style="text-align: center" id="week{{ week }}">
+                                    {{ week }}</br>
+                                    {{ row_week }}
+                                </th>
+                                {% endif %}
+                                <td>
+                                    {% cycle "Tu", "Th" %} <br/>
+                                    {{ material.date }}
+                                </td>
+                                <td class="table-td-sm">
+                                    {% if material.title %}
+                                        {{ material.title | markdownify }}
+                                        {% if material.webcast %}
+                                            <span class="badge badge-light main-badge">
+                                                <a href="{{ material.webcast }}" target="_blank">webcast</a>
+                                                {% if material.mirror %}
+                                                | 
+                                                <a href="{{ material.mirror }}" target="_blank">youtube mirror</a>
+                                                {% endif %}
+                                                {% if material.password %}
+                                                <br>
+                                                <div class="text-muted">Password: {{material.password}}</div>
+                                                {% endif %}
+                                            </span>
+                                            <div style="height:0.5rem"></div>
+                                        {% endif %}
+
+                                        {% if material.resources %}
+                                        {% for resource in material.resources %}
+                                        <span class="badge badge-light main-badge">
+                                            <a href="{{ resource.url }}">{{ resource.name }}</a>
+                                        </span><br>
+                                        <div style="height:0.4rem"></div>
+                                        {% endfor %}
+                                        {% endif %}
+                                    {% endif %}
+                                    {% if material.holiday %}
+                                        {{ material.holiday }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if material.reading %}
+                                        {% for reading in material.reading %}
+                                        <span class="badge badge-light main-badge">
+                                            <a href="{{ reading.url }}">{{ reading.name }}</a>
+                                        </span><br>
+                                        <div style="height:0.4rem"></div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </td>
+                                {% if first_tr %}
+                                <td rowspan="{{ LECTURES_PER_WEEK }}" style="vertical-align: middle; text-align: center;">
+                                    {{ row_assignments }}
+                                </td>
+                                {% endif %}
+                            </tr>
+                            {% assign first_tr = false %}
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        {% endfor %}
+    </tbody>
+</table>
+<!-- <p><b>Final time:</b> Wednesday 5/12, 11:30am - 2:30pm PST</p> -->
+</div>

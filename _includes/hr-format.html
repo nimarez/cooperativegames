@@ -1,0 +1,18 @@
+{% if include.i == 24 %}
+    {% assign meridiem = 'am' %}
+{% elsif include.i >= 12 %}
+    {% assign meridiem = 'pm' %}
+{% else %}
+    {% assign meridiem = 'am' %}
+{% endif %}
+{% if include.i == 24 %}
+    {% assign hr = 12 %}
+{% elsif include.i >= 13 %}
+    {% assign hr = include.i | modulo: 12 %}
+{% else %}
+    {% assign hr = include.i %}
+{% endif %}
+
+{% capture time_mm %}{{hr}}:00 {{meridiem}}{% endcapture %}
+
+{% capture time %}{{hr}}{{meridiem}}{% endcapture %}

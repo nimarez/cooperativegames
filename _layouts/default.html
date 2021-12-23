@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ '/assets/bootstrap.min.css' | relative_url }}" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ '/assets/open-sans.css' | relative_url }}" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ '/assets/main.css' | relative_url }}" crossorigin="anonymous">
+    <link href="{{ '/assets/open-iconic-bootstrap.min.css' | relative_url }}" rel="stylesheet">
+    <link href="{{ '/assets/bootstrap-toc.min.css' | relative_url }}" rel="stylesheet">
+    <link href="{{ '/assets/fullcalendar.min.css' | relative_url }}" rel="stylesheet">
+    <link href="{{ '/assets/fullcalendar-daygrid.min.css' | relative_url }}" rel="stylesheet">
+    <link href="{{ '/assets/fullcalendar-timegrid.min.css' | relative_url }}" rel="stylesheet">
+    <link href="{{ '/assets/fullcalendar-bootstrap.min.css' | relative_url }}" rel="stylesheet">
+    <link href="{{ '/assets/fullcalendar-list.min.css' | relative_url }}" rel="stylesheet">
+
+    <link rel="shortcut icon" type="image/png" href=" {{ '/favicon.ico' | relative_url }}"/>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137968408-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-137968408-2');
+    </script>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="{{ '/assets/jquery.min.js' | relative_url }}" crossorigin="anonymous"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script> -->
+    <script src="{{ '/assets/bootstrap.bundle.min.js' | relative_url }}" crossorigin="anonymous"></script>
+    <script src="{{ '/assets/bootstrap-toc.min.js' | relative_url }}"></script>
+    <script src="{{ '/assets/moment.min.js' | relative_url }}"></script>
+    <script src="{{ '/assets/fullcalendar.min.js' | relative_url }}"></script>
+    <script src="{{ '/assets/fullcalendar-gcal.min.js' | relative_url }}"></script>
+    <script src="{{ '/assets/fullcalendar-daygrid.min.js' | relative_url }}"></script>
+    <script src="{{ '/assets/fullcalendar-timegrid.min.js' | relative_url }}"></script>
+    <script src="{{ '/assets/fullcalendar-bootstrap.min.js' | relative_url }}"></script>
+    <script src="{{ '/assets/fullcalendar-list.min.js' | relative_url }}"></script>
+
+    {% if page.latex %}
+
+    <link rel="stylesheet" href="{{ '/assets/katex.min.css' | relative_url }}" integrity="sha384-BdGj8xC2eZkQaxoQ8nSLefg4AV4/AwB3Fj+8SUSo7pnKP6Eoy18liIKTPn9oBYNG" crossorigin="anonymous">
+
+    <script src="{{ '/assets/katex.min.js' | relative_url }}" integrity="sha384-JiKN5O8x9Hhs/UE5cT5AAJqieYlOZbGT3CHws/y97o3ty4R7/O5poG9F3JoiOYw1" crossorigin="anonymous"></script>
+
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script src="{{ '/assets/auto-render.min.js' | relative_url }}" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+
+    <script>
+      $(function () {
+        $("script[type='math/tex']").replaceWith(function() {
+          var tex = $(this).text();
+          return katex.renderToString(tex, {displayMode: false});
+        });
+
+        $("script[type='math/tex; mode=display']").replaceWith(function() {
+          var tex = $(this).html();
+          return katex.renderToString(tex.replace(/%.*/g, ''), {displayMode: true});
+        });
+      });
+    </script>
+
+    {% endif %}
+
+    <title> {{ site.title }} </title>
+  </head>
+  <body>
+
+    <div class="wrapper bg-white">
+        <nav class="navbar navbar-light navbar-expand-md align-items-center">
+            <div class="container">
+                <!-- <a class="navbar-brand brand-berkeley" href="{{ '/fool/' | relative_url }}'"> <img src="{{ '/assets/fool.gif' | relative_url }}" alt="fool" height="50px"> </a> -->
+                <a class="navbar-brand brand-berkeley" href="{{ '/' | relative_url }}"> {{ site.title }} </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+            
+                <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+                  <ul class="navbar-nav">
+                      {% for link in site.data.links %}
+
+                      {% if link.under %}
+                      <li class="nav-item dropdown">
+                          <a class="nav-link dropdown-toggle" id="{{ link.id }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ link.title }}
+                          </a>
+                          <div class="dropdown-menu" aria-labelledby="{{ link.id }}">
+                            {% for nested_link in link.under %}
+                            <a class="dropdown-item {% if nested_link.external %} text-muted {% endif %}" 
+                              href="{% include link-href.html link=nested_link %}">
+                              {{ nested_link.title }}
+                              {% if nested_link.external %}
+                                <span class="oi oi-external-link"></span> 
+                              {% endif %}
+                            </a>
+                            {% endfor %}
+                          </div>
+                        </li>
+                      {% else %}
+                      <li class="nav-item {% if page.title == link.title %} active {% endif %}">
+                          <a class="nav-link {% if link.external %} text-muted {% endif %}" 
+                            href="{% include link-href.html link=link %}">
+                            {{ link.title }}
+                            {% if link.external %}
+                              <span class="oi oi-external-link"></span> 
+                            {% endif %}
+                          </a>
+                        </li>
+                      {% endif %}
+
+                      {% endfor %}
+                  </ul>
+                </div>
+            </div>
+          </nav>
+      
+          <div class="container">
+              {{ content }}
+          </div>
+    </div>
+
+    <footer class="page-footer">
+        <ul class="nav justify-content-center">
+            <li class="nav-item">
+                <a class="nav-link text-secondary" href="/">
+                  {{ site.title }}
+                </a>
+              </li>
+            {% for link in site.data.links %}
+            <li class="nav-item">
+              <a class="nav-link {% if link.external %} text-dark {% endif %}" 
+                href="{% include link-href.html link=link %}">
+                {{link.title}}
+              </a>
+            </li>
+            {% endfor %}
+
+            <li class="nav-item">
+              <a class="nav-link text-secondary" href="#">
+                Back to top
+              </a>
+            </li>
+        </ul>
+    </footer>
+  </body>
+</html>

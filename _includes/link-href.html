@@ -1,0 +1,6 @@
+{% if include.link.external %}
+{% assign l = include.link.link %}
+{% else %}
+{% assign l = include.link.link | relative_url %}
+{% endif %}
+{{l}}

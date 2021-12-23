@@ -1,0 +1,27 @@
+<div class="card">
+    <div class="card-body {% if include.week %} pb-0 {% endif %}
+    {% if slot.type == 'break' %}bg-light
+    {% endif %}
+    ">
+        {% if slot.type == "lecture" %}
+            <h5 class="float-left">Lec {{ slot.number }}</h5> <span class="text-muted float-right">{{ slot.date }}</span>
+            <div class="clearfix"></div>
+            <p class="card-text">{{ slot.topics }}</p>
+            <div class="md-ignore-p"> &sect; {{ slot.sections | markdownify }} </div>
+        {% endif %}
+        {% if slot.type == "midterm" %}
+            <h5 class="float-left">Midterm {{ slot.number }}</h5> <span class="text-muted float-right">{{ slot.date }}</span>
+            <div class="clearfix"></div>
+            <p class="card-text">{{ slot.desc }}</p>
+            <p>&sect; {{ slot.sections }}</p>
+        {% endif %}
+        {% if slot.type == "break" %}
+            <h5>{{ slot.break }}</h5>
+        {% endif %}
+    </div>
+    {% if include.week %}
+    <div class="card-footer text-muted">
+       <small> Week {{ include.week }} </small>
+    </div>
+    {% endif %}
+</div>

@@ -1,0 +1,35 @@
+{% if include.show_header %}
+
+<h3>
+    Week {{ cur.week }}: Course Materials
+</h3>
+
+{% endif %}
+    
+<div class="card-group py-3">
+
+    {% unless include.show_header %}
+
+    <div class="bg-light col-sm-auto wk-number p-2">
+        <h5 class="card-title"> {{ cur.week }}</h5>
+    </div>
+    
+    {% endunless %}
+    
+    {% assign slot = cur.slot_1 %}
+    {% include material-slot.html %}
+
+    {% assign slot = cur.slot_2 %}
+    {% include material-slot.html %}
+
+    {% assign assgn = cur.section %}
+    {% assign assgn_type = "Sec" %}
+    {% assign long_assgn_type = "Section" %}
+    {% include material-assignment.html %}
+
+    {% assign assgn = cur.homework %}
+    {% assign assgn_type = "HW" %}
+    {% assign long_assgn_type = "Homework" %}
+    {% include material-assignment.html %}
+
+</div>

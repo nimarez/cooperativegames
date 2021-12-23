@@ -1,0 +1,74 @@
+---
+layout: page
+title: Discussions
+permalink: /schedule/discussions/
+---
+
+{% assign days = 'Tuesday, Wednesday, Thursday, Friday' | split: ', ' %}
+
+<div class="d-none d-md-block sticky-top">
+    <div class="row py-3 discussion-row top-discussion-row px-2">
+        <div class="col-md-3">
+            <strong>Time</strong>
+        </div>
+        <div class="col-md-9">
+            <strong>Discussion</strong>
+        </div>
+    </div>
+</div>
+
+{% for day in days %}
+    {% for i in (8..23) %}
+        {% include hr-format.html i=i %}
+        {% assign start_time_mm = time_mm %}
+        {% assign hr_start = hr %}
+        {% assign j = i | plus: 1 %}
+        {% include hr-format.html i=j %}
+
+        {% assign stripe = i | modulo: 2%}
+
+        {% assign time_discussions = site.data.discussions | where:"day", day | where:"time", start_time_mm %}
+        {% assign num = time_discussions | size %}
+
+        {% if num > 0 %}
+            <div class="row obj-hover py-2 discussion-row px-2
+            {% comment %}
+                {% if forloop.first %} discussion-row-first {% endif %}
+                {% if forloop.last %} discussion-row-last {% endif %}
+            {% endcomment %}
+                {% cycle 'discussion-row-stripe', '' %}">
+
+                <div class="col-md-3 hidden-xs hidden-sm d-none d-md-block">
+                    {{day}} {{hr_start}}-{{time}}
+                </div>
+                
+
+                <div class="col-md-9">
+          
+                    {% for dis in time_discussions %}
+                    
+                        {% assign members = site.staff | where:"name",dis.ta %}
+                        {% assign member = members.first %}
+                        {% assign img_url = '/assets/staff-images/' | append: member.image | relative_url %}
+                        <div class="row">
+                            <div class="media mb-3">
+                                <div style="background-image: url({{ img_url }})" class="mr-3 rounded-circle staff-image staff-image-sm"></div>
+                                <div class="media-body">
+                                    <h5>
+                                        {{ dis.ta }}
+                                    </h5>
+                                    <p class="my-1">
+                                        {{ dis.location }} &bull; <span class="text-muted">{{dis.shortday}} {{hr_start}}-{{hr}}{{meridiem}}</span> &bull; <span>{{dis.type}} </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endfor %}
+                
+                </div>
+
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endfor %}

@@ -1,0 +1,11 @@
+{% if include.reading contains '.' %}
+{% assign __include_parts = include.reading | split: '.' %}
+{% for part in __include_parts %}
+    {% if forloop.first == true %}
+        <a href="https://people.eecs.berkeley.edu/~vazirani/algorithms/chap{{part}}.pdf">&sect;{{ include.reading }}</a>
+    {% endif %}
+{% endfor %}
+{% else %}
+<a href="https://people.eecs.berkeley.edu/~vazirani/algorithms/chap{{include.reading}}.pdf">&sect;{{ include.reading }}</a>
+{% endif %}
+

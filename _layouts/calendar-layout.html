@@ -1,0 +1,183 @@
+---
+layout: page
+---
+
+<blockquote>
+    Use
+    <a
+        href="https://calendar.google.com/calendar/u/0?cid=Y18zM2Fkb2Q0dmpwZ3RkNTNibzJqMzQxN21ra0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t"
+        >this</a
+    >
+    link to copy the CS 170 Fall 2021 calendar to your own personal calendar!
+</blockquote>
+<br />
+
+<div id="calendar"></div>
+
+<script>
+    // {% if page.hidden_days %}
+    var hiddenDays = "{{ page.hidden_days }}".split(", ").map(function (x) {
+        return parseInt(x);
+    });
+    // {% endif %}
+
+    // {% if page.maxTime %}
+    var maxTime = "{{ page.maxTime }}";
+    // {% else %}
+    var maxTime = "18:00:00";
+    // {% endif %}
+
+    function dateFormat(d, includeDay) {
+        var o = {
+            hour: "numeric",
+            minute: "2-digit",
+            meridiem: "short",
+        };
+        if (includeDay) {
+            o.weekday = "short";
+        }
+        return FullCalendar.formatDate(d, o);
+    }
+
+    function initializeCalendar() {
+        var view;
+        var storedView = localStorage.getItem("calendarView");
+        if (storedView) {
+            view = storedView;
+        } else if ($(window).width() < 768) {
+            view = "timeGridDay";
+        } else {
+            view = "timeGridWeek";
+        }
+
+        var calendarEl = $("#calendar").get(0);
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            plugins: [
+                "timeGrid",
+                "googleCalendar",
+                "bootstrap",
+                "list",
+                "dayGrid",
+            ],
+            themeSystem: "bootstrap",
+
+            header: {
+                left: "timeGridDay,timeGridWeek,listWeek",
+                // center: 'title',
+                right: "prev,next",
+            },
+            height: "auto",
+
+            // {% if page.hidden_days %}
+            hiddenDays: hiddenDays,
+            // {% endif %}
+
+            // {% if page.range_start %}
+            validRange: {
+                start: "{{ page.range_start }}",
+                end: "{{ page.range_end }}",
+            },
+            // {% endif %}
+
+            nowIndicator: true,
+
+            minTime: "08:00:00",
+            maxTime: maxTime,
+            // allDaySlot: false,
+            defaultView: view,
+
+            // pull from google calendar
+
+            googleCalendarApiKey: "AIzaSyBkM3Ue0uvpiHs8yVLLNlbFwQP7z82efIc",
+            events: {
+                googleCalendarId: "{{ page.calendar_id }}",
+            },
+
+            viewSkeletonRender: function (info) {
+                localStorage.setItem("calendarView", info.view.type);
+            },
+
+            columnHeaderText: function (date) {
+                return (
+                    FullCalendar.formatDate(date, {
+                        weekday: "short",
+                    }) +
+                    " " +
+                    FullCalendar.formatDate(date, {
+                        day: "numeric",
+                        month: "numeric",
+                    })
+                );
+            },
+
+            eventRender: function (info) {
+                var event = info.event;
+                var element = $(info.el);
+                var inList = element.is("tr");
+                if (event.allDay) {
+                    var content = FullCalendar.formatDate(event.start, {
+                        weekday: "short",
+                    });
+                } else {
+                    var content =
+                        dateFormat(event.start, true) +
+                        " - " +
+                        dateFormat(event.end, false);
+                }
+                var location = event.extendedProps.location;
+                if (location) {
+                    var location_info = " @ " + location;
+                    element.find(".fc-content").append(location);
+                    element.find(".fc-list-item-title a").append(location_info);
+                    content = content + location_info;
+                }
+                if (event.title.includes("Lecture")) {
+                    element.addClass("lecture-event");
+                }
+                if (event.title.includes("Party")) {
+                    element.addClass("party-event");
+                }
+                if (event.title.includes("Discussion")) {
+                    element.addClass("discussion-event");
+                }
+                if (
+                    event.title.includes("Prof.") ||
+                    event.title.includes("Professor ")
+                ) {
+                    element.addClass("prof-oh-event");
+                }
+                if (event.title.includes("Review")) {
+                    element.addClass("review-event");
+                }
+                if (event.title.includes("Project")) {
+                    element.addClass("proj-oh-event");
+                }
+                if (event.title.includes("Policy")) {
+                    element.addClass("special-event");
+                }
+                if (
+                    event.title.includes("Final") ||
+                    event.title.includes("Midterm")
+                ) {
+                    element.addClass("exam-event");
+                }
+                if (!inList) {
+                    element.popover({
+                        title: event.title,
+                        content: content,
+                        trigger: "hover",
+                        placement: "left",
+                        container: "body",
+                    });
+                }
+            },
+        });
+
+        calendar.render();
+    }
+
+    $(initializeCalendar);
+</script>
+
+{{ content }}

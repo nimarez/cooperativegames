@@ -1,0 +1,14 @@
+---
+layout: page
+title: Announcements
+permalink: /announcements/
+---
+
+{% assign sorted_announcements = site.announcements | sort: "week" | reverse %}
+
+{% for announcement in sorted_announcements %}
+    {% include announcement.html show_desc=false %}
+    {% if forloop.last == false %}
+    <hr class="my-4">
+    {% endif %}
+{% endfor %}

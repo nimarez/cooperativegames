@@ -1,0 +1,37 @@
+<div class="media col-md-6 my-4">
+    {% assign img_url = '/assets/staff-images/' | append: member.image | relative_url %}
+    <div style="background-image: url({{ img_url }})" class="mr-3 rounded-circle staff-image"></div>
+    <div class="media-body">
+        <h5 class="my-0">
+            {% if member.address %}
+                <span class="text-muted">
+                    {{ member.address }}
+                </span>
+            {% endif %}
+            {{ member.name }}
+        </h5>
+        <p class="my-1">
+        {% if member.role %}
+           <span class="text-muted">{{ member.role }}</span>
+           &bull;
+        {% endif %}
+        {{ member.email }}
+        {% if member.website %}
+            &bull;
+            <a href="{{member.website}}">website</a>
+        {% endif %}
+        </p>
+        
+        {% if member.office_hours %}
+            <p>
+                Office Hours:
+                {{ member.office_hours }}
+            </p>
+        {% endif %}
+        {% if member.content %}
+            <span class="staff-bio">
+                {{ member.content | markdownify }}
+            </small>
+        {% endif %}
+    </div>
+</div>

@@ -1,0 +1,23 @@
+<div class="card">
+    {% if assgn.number %}
+        <div class="card-body pb-0">
+            <h5 class="card-title">{{ assgn_type }} {{ assgn.number }}</h5>
+        </div>
+        <div class="list-group list-group-flush">
+            <a class="list-group-item {% unless assgn.worksheet %} disabled {% endunless %}" 
+                href="{{ assgn.worksheet | relative_url }}">{{ long_assgn_type }} {{ assgn.number }}</a>
+            <a class="list-group-item {% unless assgn.solutions %} disabled {% endunless %}"
+            href="{{ assgn.solutions | relative_url }}">Solutions</a>
+        </div>
+    {% else %}
+    <div class="card-body pb-0">
+        <h5 class="card-title">No {{ assgn_type }}</h5>
+    </div>
+    <div class="list-group list-group-flush">
+        <a class="list-group-item {% unless assgn.worksheet %} disabled {% endunless %}" 
+            href="{{ assgn.worksheet | relative_url }}">{{ long_assgn_type }} {{ assgn.number }}</a>
+        <a class="list-group-item {% unless assgn.solutions %} disabled {% endunless %}"
+        href="{{ assgn.solutions | relative_url }}">Solutions</a>
+    </div>
+    {% endif %}
+</div>
