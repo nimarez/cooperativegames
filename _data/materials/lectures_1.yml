@@ -1,10 +1,10 @@
 - type: lec
-  date: "1/24"
+  date: "1/31"
   week: 1
-  title: Introduction to Cooperative Games, Course Overview
-  reading:
-      - name: "hanabi challenge"
-      - url: "/assets/notes/1902.00506.pdf"
-  resources:
-      - name: "slides"
-        url: "/assets/notes/hanabi-card-game-rules.pdf"
+  title: Introduction, Syllabus, Hat Riddles
+  # reading:
+  #     - name: "hanabi challenge"
+  #     - url: "/assets/notes/1902.00506.pdf"
+  # resources:
+  #     - name: "slides"
+  #       url: "/assets/notes/hanabi-card-game-rules.pdf"
